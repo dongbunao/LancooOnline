@@ -62,7 +62,7 @@ class UserMessage(models.Model):
 
 # 用户课程表
 class UserCourse(models.Model):
-    course = models.ForeignKey(Course, verbose_name=u'课程')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name=u'课程')
     user = models.IntegerField(default=0, verbose_name=u'用户')
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u'添加时间')
 

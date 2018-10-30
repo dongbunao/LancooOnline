@@ -22,7 +22,7 @@ class CourseOrg(models.Model):
     fav_nums = models.IntegerField(default=0, verbose_name=u'收藏数')
     image = models.ImageField(upload_to='org/%Y/%m', verbose_name=u'封面图', max_length=100)
     address = models.CharField(max_length=150, verbose_name=u'机构地址')
-    city = models.ForeignKey(CityDict, verbose_name=u'机构所在城市')
+    city = models.ForeignKey(CityDict, on_delete=models.CASCADE, verbose_name=u'机构所在城市')
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u'添加时间')
 
     class Meta:
