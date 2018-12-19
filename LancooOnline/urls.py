@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.urls import path
 import xadmin
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
+    path('', TemplateView.as_view(template_name='index.html'), name = 'index'),
+    # 配置登录页面跳转
+    path('login/', TemplateView.as_view(template_name='login.html'), name = 'login')
 ]
