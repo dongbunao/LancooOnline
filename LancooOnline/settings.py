@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'organization',
     'operation',
     'xadmin',
-    'crispy_forms'
+    'crispy_forms',
+    'captcha'
 ]
 
 # 此处重载是为了使我们的UserProfile生效
@@ -139,3 +140,13 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+# 邮件发送的setting设置
+EMAIL_HOST = 'smtp.sina.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'dongxiaoanzhen@sina.com'
+EMAIL_HOST_PASSWORD = 'xinlang1327'
+EMAIL_URE_LTS = True
+EMAIL_FROM = 'dongxiaoanzhen@sina.com'
+
+ALI_HOST = '172.0.0.1'
