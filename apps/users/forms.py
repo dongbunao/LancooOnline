@@ -19,9 +19,25 @@ class RegisterForm(forms.Form):
     captcha = CaptchaField(error_messages={'invalid': u'验证码错误'})
 
 
+# 验证码form && 忘记密码表单from
+class ForgetForm(forms.Form):
+    # 这里email和前端name一致
+    email = forms.EmailField(required=True)
+    # 应用验证码
+    captcha = CaptchaField(error_messages={'invalid': u'验证码错误'})
+
+
 # 验证码激活
 class ActiveForm(forms.Form):
     # 这里是email，和前端页面的name一致
     email = forms.CharField(required=True)
     # 用用验证码，自定义错误输出（key必须和异常一致）
     captcha = CaptchaField(error_messages={'invalid':u'验证码错误'})
+
+
+# 修改密码from
+class ModifyPwdForm(forms.Form):
+    # 新密码
+    password1 = forms.CharField(required=True, min_length=5)
+    # 确认密码
+    password2 = forms.CharField(required=True, min_length=5)

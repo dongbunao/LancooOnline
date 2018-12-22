@@ -21,7 +21,7 @@ def random_str(random_length=8):
 
 
 # 发送注册激活邮件
-def send_register_email(email, send_type='register'):
+def send_register_email(email, send_type):
     # 实例化一个EmailVerifyRecoder对象
     email_record = EmailVerifyRecord()
     # 生成一个随机字符串code放进链接
@@ -40,6 +40,14 @@ def send_register_email(email, send_type='register'):
     if send_type == 'register':
         email_title = '蓝鸽在线教育网 注册激活链接'
         email_body = '请点击下面链接激活你的账号：http://127.0.0.1:8000/active/{0}'.format(code)
+
+        # 使用Django内置函数发送邮件。四个参数：主题，邮件内容，发送者，接受者list
+        send_status = send_mail(email_title, email_body, EMAIL_FROM, [email])
+        if send_status:
+            pass
+    elif send_type == 'forget':
+        email_title = '蓝鸽在线教育网 找回密码链接'
+        email_body = '请点击下面链接找回密码：http://{0}:8000/reset/{1}'.format(ALI_HOST, code)
 
         # 使用Django内置函数发送邮件。四个参数：主题，邮件内容，发送者，接受者list
         send_status = send_mail(email_title, email_body, EMAIL_FROM, [email])

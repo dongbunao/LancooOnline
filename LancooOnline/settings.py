@@ -149,4 +149,4 @@ EMAIL_HOST_PASSWORD = 'xinlang1327'
 EMAIL_URE_LTS = True
 EMAIL_FROM = 'dongxiaoanzhen@sina.com'
 
-ALI_HOST = '172.0.0.1'
+ALI_HOST = '127.0.0.1'
