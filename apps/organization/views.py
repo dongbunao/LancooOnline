@@ -1,10 +1,12 @@
 # encoding:utf-8
 from django.shortcuts import render
 from django.views.generic.base import View
+from django.http import HttpResponse
 
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import CourseOrg, CityDict
+from .forms import UserAskForm
 
 # Create your views here.
 
@@ -58,3 +60,22 @@ class OrgView(View):
             'hot_orgs':hot_orgs, # 授课机构排名,取点击数前三
             'sort':sort,
         })
+
+
+# 用户咨询（我要学习）的View
+class AddUserAskView(View):
+    # 只有post
+    def post(self, request):
+        userask_form = UserAskForm(request.POST)
+        if userask_form.is_valid():
+            # 这里是modelform和form的区别
+            # 它有model的属性
+            # 当commit为true进行真正保存
+            user_ask = userask_form.save(commit=True)
+            # 这样就不需要把一个一个字段取出来然后存到model的对象中之后save
+
+            # 如果保存成功,返回json字符串,后面content type是告诉浏览器的
+            return HttpResponse('{"status":"success"}', content_type='application/json')
+        else:
+            return HttpResponse('{"status":"fail", "msg":"信息有错"}', content_type='application/json')
+

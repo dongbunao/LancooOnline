@@ -26,6 +26,9 @@ from organization.views import OrgView
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
+    # 处理图片显示的url,使用Django自带serve，传入参数后告诉它去哪个路径下去找，我们有配置好的路径MEDIA_ROOT
+    re_path('media/(?P<path>.*)', serve, {'document_root':MEDIA_ROOT}),
+
     # 配置登录页面跳转
     path('login/', LoginView.as_view(), name='login'),
     # 注册url
@@ -41,8 +44,8 @@ urlpatterns = [
     # 点击重置密码url(重置密码页面提交的表单)
     path('modify_pwd/', ModifyPwdView.as_view(), name='modify_pwd'),
 
-    # 课程机构首页
-    path('org_list/', OrgView.as_view(), name='org_list'),
-    # 处理图片显示的url,使用Django自带serve，传入参数后告诉它去哪个路径下去找，我们有配置好的路径MEDIA_ROOT
-    re_path('media/(?P<path>.*)', serve, {'document_root':MEDIA_ROOT})
+    # 课程机构app的url配置
+    path('org/', include('organization.urls', namespace='org')),
+
+
 ]
