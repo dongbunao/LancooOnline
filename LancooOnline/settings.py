@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'operation',
     'xadmin',
     'crispy_forms',
-    'captcha'
+    'captcha',
+    'pure_pagination',
 ]
 
 # 此处重载是为了使我们的UserProfile生效
@@ -78,6 +79,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media', # django2.0写法，1.9'django.core.context_processors.media'
             ],
         },
     },
@@ -141,6 +143,20 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+
+# 设置文件上传的路径
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# 分页设置
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 10,
+    'MARGIN_PAGES_DISPLAYED': 2,
+    'SHOW_FIRST_PAGE_WHEN_INVALID': True,
+}
+
+
 # 邮件发送的setting设置
 EMAIL_HOST = 'smtp.sina.com'
 EMAIL_PORT = 25
@@ -149,4 +165,5 @@ EMAIL_HOST_PASSWORD = 'xinlang1327'
 EMAIL_URE_LTS = True
 EMAIL_FROM = 'dongxiaoanzhen@sina.com'
 
+# 服务器主机地址
 ALI_HOST = '127.0.0.1'

@@ -14,11 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, re_path
-import xadmin
 from django.views.generic import TemplateView
-from users.views import LoginView, RegisterView, ActiveUserView, ForgetPwdView, ResetView, ModifyPwdView
 from django.conf.urls import url, include
+from django.views.static import serve
+import xadmin
 
+from LancooOnline.settings import MEDIA_ROOT
+from users.views import LoginView, RegisterView, ActiveUserView, ForgetPwdView, ResetView, ModifyPwdView
+from organization.views import OrgView
 
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
@@ -36,5 +39,10 @@ urlpatterns = [
     # 请求重置密码url(从重置链接过来的请求)
     re_path('reset/(?P<active_code>.*)/', ResetView.as_view(), name='reset_pwd'),
     # 点击重置密码url(重置密码页面提交的表单)
-    path('modify_pwd/', ModifyPwdView.as_view(), name='modify_pwd')
+    path('modify_pwd/', ModifyPwdView.as_view(), name='modify_pwd'),
+
+    # 课程机构首页
+    path('org_list/', OrgView.as_view(), name='org_list'),
+    # 处理图片显示的url,使用Django自带serve，传入参数后告诉它去哪个路径下去找，我们有配置好的路径MEDIA_ROOT
+    re_path('media/(?P<path>.*)', serve, {'document_root':MEDIA_ROOT})
 ]
