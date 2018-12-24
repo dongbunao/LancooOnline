@@ -46,6 +46,8 @@ urlpatterns = [
 
     # 课程机构app的url配置
     path('org/', include('organization.urls', namespace='org')),
+    # 课程app的url配置
+    path('course/', include('courses.urls', namespace='course')),
 
 
 ]
