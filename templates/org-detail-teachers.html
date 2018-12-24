@@ -1,0 +1,40 @@
+{% extends 'org_base.html' %}
+{% load staticfiles %}
+{% block title %}机构讲师|蓝鸽在线教育网站{% endblock %}
+{% block custom_bread %}
+    <div class="wp">
+		<ul  class="crumbs">
+            <li><a href="{% url 'index' %}">首页</a>></li>
+			<li><a href="{% url 'org:org_list' %}">课程机构</a>></li>
+			<li>机构讲师</li>
+		</ul>
+	</div>
+{% endblock %}
+{% block right_form %}
+    <div class="right companycenter layout" >
+            <div class="head">
+                <h1>机构教师</h1>
+                <a class="green fr more" href="org-detail-teachers.html">查看更多  >  </a>
+            </div>
+            {% for teacher in all_teacher %}
+                <div class="diarys">
+                <div class="module5 share company-diary-box" style="padding:10px 0;">
+                    <div class="left">
+                        <img class="pic" src="{{ MEDIA_URL }}{{ teacher.image }}"/>
+                        <p>昵称：{{ teacher.name }}</p>
+                    </div>
+                    <div class="right">
+                        <div class="top">
+                            <div class="fl">
+                                <a href=""><h1>java开发教程</h1></a>
+                                <span>发表于：2017-10-12</span>
+                            </div>
+                        </div>
+                        <div class="middle" style="border-bottom:0;">课程介绍</div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+{% endblock %}
+
