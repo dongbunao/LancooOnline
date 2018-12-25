@@ -6,6 +6,7 @@ from django.views.generic.base import View
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 from courses.models import Course
+from operation.models import UserFavourite
 # Create your views here.
 
 
@@ -40,4 +41,39 @@ class CourseListView(View):
             'all_course':all_course,
             'sort':sort,
             'hot_courses':hot_courses,
+        })
+
+
+# 课程详情页
+class CourseDetailView(View):
+    def get(self, request, course_id):
+        course = Course.objects.get(id=int(course_id))
+        # 课程点击数 +1
+        course.click_nums += 1
+        course.save()
+
+        # 相关课程    tag相同的课程
+        tag = course.tag
+        if tag:
+            # 需要从1开始，过滤掉自己
+            relate_courses = Course.objects.filter(tag=tag)[1:2]
+        else:
+            relate_courses = []
+
+        # 收藏课程
+        has_fav_course = False
+        has_fav_org = False
+
+        # 必须是用户已登录我们才需要判断。
+        if request.user.is_authenticated:
+            if UserFavourite.objects.filter(user=request.user, fav_id=course.id, fav_type=1):
+                has_fav_course = True
+            if UserFavourite.objects.filter(user=request.user, fav_id=course.course_org.id, fav_type=2):
+                has_fav_org = True
+
+        return render(request, 'course-detail.html', {
+            'course':course,
+            'relate_courses':relate_courses,
+            'has_fav_course':has_fav_course,
+            'has_fav_org':has_fav_org,
         })
