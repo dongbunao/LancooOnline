@@ -3,7 +3,7 @@ __author__ = 'dongxiao'
 
 from django.urls import path, re_path
 from organization.views import OrgView
-from organization.views import AddUserAskView, OrgHomeView, OrgCourseView, OrgDescView, OrgTeacherView, AddFavView
+from organization.views import AddUserAskView, OrgHomeView, OrgCourseView, OrgDescView, OrgTeacherView, AddFavView, TeacherDetailView
 
 
 app_name = 'organization'
@@ -18,9 +18,11 @@ urlpatterns = [
     re_path('course/(?P<org_id>\d+)/', OrgCourseView.as_view(), name="org_course"),
     # 机构介绍页面
     re_path('desc/(?P<org_id>\d+)/', OrgDescView.as_view(), name="org_desc"),
-    # 机构讲师页面
+    # 机构讲师列表页面
     re_path('teacher/(?P<org_id>\d+)/', OrgTeacherView.as_view(), name="org_teacher"),
     # 收藏
     path('add_fav/', AddFavView.as_view(), name='add_fav'),
+    # 访问讲师详情页面
+    re_path('teacher/detail/(?P<teacher_id>\d+)/', TeacherDetailView.as_view(), name="teacher_detail"),
 
 ]

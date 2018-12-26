@@ -161,7 +161,7 @@ class OrgDescView(View):
         })
 
 
-# 机构讲师
+# 机构讲师列表
 class OrgTeacherView(View):
     """
     机构讲师列表页
@@ -250,6 +250,31 @@ class AddFavView(View):
                 return HttpResponse('{"status":"success", "msg":"已收藏"}', content_type='application/json')
             else:
                 return HttpResponse('{"status":"fail", "msg":"收藏出错"}', content_type='application/json')
+
+# 教师详情页面
+
+class TeacherDetailView(View):
+    def get(self, request, teacher_id):
+        teacher = Teacher.objects.get(id=int(teacher_id))
+        teacher.click_nums += 1
+        teacher.save()
+        all_course = teacher.course_set.all()
+        # 排行榜讲师
+        rank_teacher = Teacher.objects.all().order_by("-fav_nums")[:5]
+
+        has_fav_teacher = False
+        if UserFavourite.objects.filter(user=request.user, fav_type=3, fav_id=teacher.id):
+            has_fav_teacher = True
+        has_fav_org = False
+        if UserFavourite.objects.filter(user=request.user, fav_type=2, fav_id=teacher.org.id):
+            has_fav_org = True
+        return render(request, "teacher-detail.html", {
+            "teacher": teacher,
+            "all_course": all_course,
+            "rank_teacher": rank_teacher,
+            "has_fav_teacher": has_fav_teacher,
+            "has_fav_org": has_fav_org,
+        })
 
 
 

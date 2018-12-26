@@ -38,7 +38,7 @@
                 <div class="module5 share company-diary-box" style="padding:10px 0;">
                     <div class="left">
                         <img class="pic" src="{{ MEDIA_URL }}{{ teacher.image }}"/>
-                        <p>昵称：{{ teacher.name }}</p>
+                        <p><a href="{% url 'org:teacher_detail' teacher.id %}">姓名：{{ teacher.name }}</a>{}</p>
                     </div>
                     <div class="right">
                         <div class="top">

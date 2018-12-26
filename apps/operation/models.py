@@ -70,8 +70,8 @@ class UserMessage(models.Model):
 
 # 用户课程表
 class UserCourse(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name=u'用户')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name=u'课程')
-    user = models.IntegerField(default=0, verbose_name=u'用户')
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u'添加时间')
 
     class Meta:
@@ -79,4 +79,5 @@ class UserCourse(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.course
+        return '用户 {0} 学习了 {1}'.format(self.user, self.course)
+
