@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.views.generic.base import View
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
@@ -13,11 +13,16 @@ from courses.models import Course
 # Create your views here.
 
 
-# 处理课程机构列表的View
+# 课程机构列表
 class OrgView(View):
     def get(self, request):
         # 查找所有的课程机构
         all_orgs = CourseOrg.objects.all()
+        # 搜索功能
+        search_keywords = request.GET.get('keywords', '')
+        if search_keywords:
+            # i 表示忽略大小写
+            all_orgs = all_orgs.filter(Q(name__icontains=search_keywords) | Q(desc__icontains=search_keywords))
         # 取出所有城市
         all_citys = CityDict.objects.all()
         # 城市筛选,默认空
@@ -61,6 +66,7 @@ class OrgView(View):
             'category':category, # 把category传回页面，标记哪个category被选中
             'hot_orgs':hot_orgs, # 授课机构排名,取点击数前三
             'sort':sort,
+            'search_keywords':search_keywords,
         })
 
 

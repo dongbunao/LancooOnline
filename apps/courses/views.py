@@ -3,6 +3,7 @@
 from django.shortcuts import render
 from django.views.generic.base import View
 from django.http.response import HttpResponse
+from django.db.models import Q
 
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
@@ -16,6 +17,13 @@ from utils.mixin_utils import LoginRequiredMixin
 class CourseListView(View):
     def get(self, request):
         all_course = Course.objects.all()
+        # 搜索功能
+        search_keywords = request.GET.get('keywords', '')
+        if search_keywords:
+            # i 表示忽略大小写
+            all_course = all_course.filter(Q(name__icontains=search_keywords)|Q(desc__icontains=search_keywords)|Q(detail__icontains=search_keywords))
+
+
 
         # 按学习人数和热度排序
         sort = request.GET.get('sort', '')
@@ -43,6 +51,7 @@ class CourseListView(View):
             'all_course':all_course,
             'sort':sort,
             'hot_courses':hot_courses,
+            'search_keywords':search_keywords,
         })
 
 
