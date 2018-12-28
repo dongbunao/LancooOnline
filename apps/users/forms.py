@@ -2,6 +2,9 @@
 __author__ = 'dongxiao'
 
 from django import forms
+
+from users.models import UserProfile
+
 from captcha.fields import CaptchaField
 
 # 登录表单验证
@@ -41,3 +44,18 @@ class ModifyPwdForm(forms.Form):
     password1 = forms.CharField(required=True, min_length=5)
     # 确认密码
     password2 = forms.CharField(required=True, min_length=5)
+
+
+# 用于文件上传，修改头像
+class UploadImageFrom(forms.ModelForm):
+    # 用于定义一些与 Django 特定模型相关的一些选项
+    class Meta:
+        model = UserProfile
+        fields = ['image']
+
+
+# 在个人中心修改个人信息
+class UserInfoForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['nick_name', 'gender', 'birthday', 'address', 'mobile']

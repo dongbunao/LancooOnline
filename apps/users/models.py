@@ -36,15 +36,21 @@ class UserProfile(AbstractUser):
     def __str__(self):
         return self.username
 
+    # 获取用户未读信息数量
+    def unread_nums(self):
+        from operation.models import UserMessage  # 避免循环引用
+        return UserMessage.objects.filter(user=self.id).count()
+
 
 class EmailVerifyRecord(models.Model):
     SEND_CHOICES = (
         ('register', u'注册'),
-        ('forget', u'找回密码')
+        ('forget', u'找回密码'),
+        ('update_email', '修改邮箱')
     )
     code = models.CharField(max_length=20, verbose_name=u'验证码')
     email = models.EmailField(max_length=50, verbose_name=u'邮箱')
-    send_type = models.CharField(max_length=10, verbose_name=u'发送类型', choices=SEND_CHOICES)
+    send_type = models.CharField(max_length=30, verbose_name=u'发送类型', choices=SEND_CHOICES)
     send_time = models.DateTimeField( verbose_name=u'发送时间',default=datetime.now)
 
     class Meta:
@@ -53,6 +59,7 @@ class EmailVerifyRecord(models.Model):
     # 重载 str 方法，后台不再直接显示object
     def __str__(self):
         return '{0} ({1})'.format(self.code, self.email)
+
 
 class Banner(models.Model):
     title = models.CharField(max_length=100, verbose_name=u'标题')
