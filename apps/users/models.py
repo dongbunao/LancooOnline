@@ -39,7 +39,7 @@ class UserProfile(AbstractUser):
     # 获取用户未读信息数量
     def unread_nums(self):
         from operation.models import UserMessage  # 避免循环引用
-        return UserMessage.objects.filter(user=self.id).count()
+        return UserMessage.objects.filter(user=self.id, has_read=False).count()
 
 
 class EmailVerifyRecord(models.Model):

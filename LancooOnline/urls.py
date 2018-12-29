@@ -20,12 +20,14 @@ from django.views.static import serve
 import xadmin
 
 from LancooOnline.settings import MEDIA_ROOT
-from users.views import LoginView, RegisterView, ActiveUserView, ForgetPwdView, ResetView, ModifyPwdView
+from users.views import LogoutView, LoginView, RegisterView, ActiveUserView, ForgetPwdView, ResetView, ModifyPwdView
 from organization.views import OrgView
 
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
+    # 登出
+    path('logout/', LogoutView.as_view(), name='logout'),
     # 处理图片显示的url,使用Django自带serve，传入参数后告诉它去哪个路径下去找，我们有配置好的路径MEDIA_ROOT
     re_path('media/(?P<path>.*)', serve, {'document_root':MEDIA_ROOT}),
 

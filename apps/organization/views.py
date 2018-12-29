@@ -99,6 +99,9 @@ class OrgHomeView(View):
         all_courses = course_org.course_set.all()[:4]
         all_teacher = course_org.teacher_set.all()[:2]
 
+        course_org.click_nums +=1
+        course_org.save()
+
         # 向前端传 has_fav 说明是否已收藏
         has_fav = False
         # 登录状态才能判断是否收藏
